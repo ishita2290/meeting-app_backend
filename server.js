@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const express = require("express");
-const User = require('./Models/User');
+const User = require("./Models/UserModel");
 
 const cors = require("cors");
 const app = express();
@@ -22,6 +22,6 @@ mongoose
   .catch((error) => {
     console.log(`Cannot connect to database, error: ${error}`);
   });
-app.get("/", (request, response) => {});
+// app.get("/", (request, response) => {});
 
 app.listen(4014, console.log("Server started"));
