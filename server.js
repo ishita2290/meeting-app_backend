@@ -3,14 +3,15 @@ const mongoose = require("mongoose");
 const express = require("express");
 const User = require("./Models/UserModel");
 const UserRouter = require("./routes/User");
+const eventRoutes = require('./routes/events');
 
-
-const cors = require("cors");
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 dotenv.config();
+
+app.use('/events', eventRoutes)
 
 const DB = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 mongoose
