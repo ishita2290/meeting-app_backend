@@ -12,15 +12,11 @@ const EventSchema = new mongoose.Schema({
         type: String, 
         enum: ['Point'] // 'location.type' must be 'Point'
         },
-        coordinates: {
-        type: [Number],
-        address: String,
-        description: String 
-        }
+        coordinates:  [Number]
     },
     description: { type: String },
-    //category: { type: String, required: true, enum: ['culture', 'sport', 'learning languages', 'other'] },
-    participants: { type: [mongoose.Schema.Types.ObjectId] } // dynamic 
+    category: { type: String, required: true, enum: ['culture', 'sport', 'learning languages', 'other'] },
+    //participants: { type: [mongoose.Schema.Types.ObjectId] } // dynamic 
 });
 
 module.exports = EventSchema;
