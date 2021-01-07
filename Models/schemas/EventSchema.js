@@ -12,7 +12,10 @@ const EventSchema = new mongoose.Schema({
         type: String, 
         enum: ['Point'] // 'location.type' must be 'Point'
         },
-        coordinates:  [Number]
+        coordinates: {
+            type: [Number],
+            required: true
+        }
     },
     description: { type: String },
     category: { type: String, required: true, enum: ['culture', 'sport', 'learning languages', 'other'] },
