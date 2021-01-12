@@ -18,7 +18,7 @@ const EventSchema = new mongoose.Schema({
         }
     },
     description: { type: String },
-    category: { type: String, enum: ['culture', 'sport', 'learning languages', 'other'] },
+    category: { type: String, enum: ['music', 'books', 'sport', 'learning languages', 'other'] },
     //participants: { type: [mongoose.Schema.Types.ObjectId] } // dynamic 
 });
 
