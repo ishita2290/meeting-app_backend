@@ -6,21 +6,20 @@ const EventSchema = new mongoose.Schema({
     eventName: { type: String, required: true, unique: true },
     startingDate: { type: Date, required: true },
     finishingDate: { type: Date },
-    online: { type: Boolean, required: true },
+    online: { type: Boolean },
     location: { // GeoJSON https://mongoosejs.com/docs/geojson.html
         type: {
-        type: String, 
-        enum: ['Point'] // 'location.type' must be 'Point'
+            type: String, 
+            enum: ['Point'] // 'location.type' must be 'Point'
         },
         coordinates: {
-        type: [Number],
-        address: String,
-        description: String 
+            type: [Number],
+            required: false
         }
     },
     description: { type: String },
-    //category: { type: String, required: true, enum: ['culture', 'sport', 'learning languages', 'other'] },
-    participants: { type: [mongoose.Schema.Types.ObjectId] } // dynamic 
+    category: { type: String, enum: ['music', 'books', 'sport', 'learning languages', 'other'] },
+    //participants: { type: [mongoose.Schema.Types.ObjectId] } // dynamic 
 });
 
 module.exports = EventSchema;
