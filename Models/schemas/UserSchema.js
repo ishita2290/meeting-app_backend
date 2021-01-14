@@ -9,6 +9,8 @@ const UserSchema = new mongoose.Schema({
     email:{ type: String, required: true },
     telephone:{ type: String },
     gender:{ type: String,default:"N/A",enum:["Male","Female","N/A"]},
+    image:{type:Buffer},
+    bio:{type:String,max:255},
     resetToken:String,
     expireToken: Date,
 });
