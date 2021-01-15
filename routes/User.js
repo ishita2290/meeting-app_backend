@@ -57,6 +57,45 @@ router.post("/login", async (request, response) => {
     .send("logged In");
 });
 
+
+/**
+ * Back-end endpoint to get auth user through token
+ * 
+ */
+router.post("/get-auth-user", async (request, response) => {
+  // Get all cookie
+  cookies = request.cookies;
+
+  // if type of cookie jwt  is not undefined
+  if (typeof cookies.jwt != 'undefined') {
+
+    // Get jwt token from wookies
+    jwt_token = cookies.jwt.token;
+
+    // Verify and decode token
+    jwt.verify(jwt_token, process.env.ACCESS_TOKEN_SECRET, async (err, user_token) => {
+      if (err) {
+        console.error(err);
+        response.json({status: false});
+      } else {
+        // Get user info from jwt token
+        user_id = user_token.sub;
+
+        // get User info from user ID (user_token.sub)
+        user = await User.findOne({ _id: user_id});
+
+        response.json({status: true, user: user});
+      }
+    });
+  } else {
+    // return error: user is not logged in
+    response.json({status: false});
+  }
+
+    // return user info
+
+});
+
 router.post("/reset-password", (req, res) => {
   crypto.randomBytes(32, async (err, buffer) => {
     if (err) {
