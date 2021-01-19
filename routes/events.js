@@ -41,4 +41,14 @@ router.post('/add-new-event', async (request, response) => {
        
 });
 
+router.get("/get-event/:id" , async (request, response) => {
+    const singleEvent = await Event.findById(request.params.id);
+    if(!singleEvent){
+       return response.send('not correct id')
+    }
+    response.send(singleEvent)
+})
+
+
+
 module.exports = router;

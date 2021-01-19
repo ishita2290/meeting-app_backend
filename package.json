@@ -15,9 +15,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "server":"nodemon server.js",
-    "frontend" :"npm start --prefix ../meeting-app-frontend"
-    
+    "server": "nodemon server.js",
+    "frontend": "npm start --prefix ../meeting-app-frontend"
   },
   "repository": {
     "type": "git",
