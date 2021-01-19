@@ -62,7 +62,7 @@ router.post("/login", async (request, response) => {
  * Back-end endpoint to get auth user through token
  * 
  */
-router.post("/get-auth-user", async (request, response) => {
+router.get("/get-auth-user", async (request, response) => {
   // Get all cookie
   cookies = request.cookies;
 
@@ -84,6 +84,7 @@ router.post("/get-auth-user", async (request, response) => {
         // get User info from user ID (user_token.sub)
         user = await User.findOne({ _id: user_id});
 
+        // return user info
         response.json({status: true, user: user});
       }
     });
@@ -91,9 +92,24 @@ router.post("/get-auth-user", async (request, response) => {
     // return error: user is not logged in
     response.json({status: false});
   }
+});
 
-    // return user info
+/**
+ * Back-end endpoint to update user
+ * 
+ */
+router.post("/update-user", async (request, response) => {
+  user = await User.findOne({ _id: request.body.user._id});
+  
+  user.username = request.body.user.username;
+  user.city = request.body.user.city;
+  user.age = request.body.user.age;
 
+  if (user.save()) {
+    response.json({status: true, message: 'Changes saved'});
+  } else {
+    response.json({status: false});
+  }
 });
 
 router.post("/reset-password", (req, res) => {
