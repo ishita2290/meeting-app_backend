@@ -1,16 +1,23 @@
 const dotenv = require("dotenv");
+const cors =  require("cors");
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require('cors');
 const User = require("./Models/UserModel");
 const UserRouter = require("./routes/User");
+const router = require("./routes/dashboard")
 const eventRoutes = require('./routes/events');
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const {jwtStrategy} = require ("./config/passportStrategies")
 
 const app = express();
-
+app.use(cookieParser())
 app.use(express.json());
 app.use(cors());
 dotenv.config();
+app.use(passport.initialize());
+passport.use(jwtStrategy);
 
 app.use('/events', eventRoutes)
 
@@ -28,5 +35,6 @@ mongoose
   });
 
 app.use('/user',UserRouter)
+app.use("/dashboard",router)
 
 app.listen(4014, console.log("Server started"));
