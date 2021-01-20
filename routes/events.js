@@ -22,8 +22,21 @@ router.post('/add-new-event', async (request, response) => {
 });
 
 
-// get data based on event's name
+// get data organized by provided user
+router.get('/get-events', async (request, response) => {
 
+    try {
+        const events = await Event.find({organizer: request.body.user});
+        response.json({status: true, events: events});
+    } catch (error) {
+        console.error(error);
+        response.json({status:false});
+    }
+
+});
+
+
+// get data based on event's name
 router.get('/search-events/:query', async (request, response) => {
 
     const {query} = request.params;
