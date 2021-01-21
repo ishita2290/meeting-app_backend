@@ -3,26 +3,6 @@ const { builtinModules } = require('module');
 const mongoose = require('mongoose');
 const Event = require('../Models/EventModel');
 
-
-// router.post('/add-new-event', (request, response) => {
-
-//     Event.create(request.body).then(() =>  {
-//         console.log('it worked')
-//         response.status(201).json(
-//             {
-//                 status: 'New Event added',
-//                 data: {
-//                     event: Event //???                                                  
-//                 }
-//             })
-//     })                                                          
-//       .catch(error => response.status(400).json({
-//         status: 'fail',
-//         message: error
-//     }));
-       
-// });
-
 router.post('/add-new-event', async (request, response) => {
 
     try {
@@ -31,7 +11,7 @@ router.post('/add-new-event', async (request, response) => {
         response.status(201).json(
             {
                 status: 'New Event added',
-                data: createNewEvent                                          
+                data: createNewEvent                                        
             }
         )
     }
@@ -40,5 +20,70 @@ router.post('/add-new-event', async (request, response) => {
     }
        
 });
+
+// get data based on event's name
+
+router.get('/search-events/name/:query', async (request, response) => {
+
+    const {query} = request.params;
+
+    try {
+        const nameWhichContains = query;
+        const regex = new RegExp(nameWhichContains, 'i');
+        const events = await Event.find({eventName: {$regex: regex}});
+        response.json(events);
+    }
+    catch (error) {
+        console.error(error);
+    }
+
+});
+
+// get data based on category
+
+router.get('/search-events/category/:category', async (request, response) => {
+
+    const category = request.params.category;
+
+    try {
+        const events = await Event.find({category});
+        response.json(events);
+    }
+    catch (error) {
+        console.error(error);
+    }
+
+});
+
+// get data - only online events
+
+router.get('/search-events/online', async (request, response) => {
+
+    try {
+        const events = await Event.find({online: true});
+        response.json(events);
+    }
+    catch (error) {
+        console.error(error);
+        response.status(404).send('/here was an error')
+    }
+
+});
+
+// get data based on location
+
+// router.get('/search-events/location/:location', async (request, response) => {
+
+//     const {location} = request.params;
+
+//     try {
+//         const events = await Event.find({location});
+//         response.json(events);
+//     }
+//     catch (error) {
+//         console.error(error);
+//     }
+
+// });
 
 module.exports = router;
