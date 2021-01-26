@@ -23,14 +23,53 @@ router.post('/add-new-event', async (request, response) => {
 
 
 // get data organized by provided user
-router.get('/get-events', async (request, response) => {
+router.get('/get-organized-events', async (request, response) => {
 
     try {
-        const events = await Event.find({organizer: request.body.user});
-        response.json({status: true, events: events});
+        if (typeof request.query.user !== 'undefined' && request.query.user !== '') {
+            var user = JSON.parse(request.query.user);
+
+            var ObjectId = mongoose.Types.ObjectId;
+
+            const events = await Event.find({ organizer: new ObjectId(user._id)});
+
+            if (events.length > 0) {
+                response.json({status: true, events: events});
+            } else {
+                response.json({status: false});
+            }
+        } else {
+            response.json({status: false});
+        }
     } catch (error) {
         console.error(error);
-        response.json({status:false});
+        response.json({status: false});
+    }
+
+});
+
+// get data organized by provided user
+router.get('/get-attended-events', async (request, response) => {
+
+   try {
+        if (typeof request.query.user !== 'undefined' && request.query.user !== '') {
+            var user = JSON.parse(request.query.user);
+
+            var ObjectId = mongoose.Types.ObjectId;
+
+            const eventAttended = await Event.find({ participants: new ObjectId(user._id) });
+
+            if (eventAttended.length > 0) {
+                response.json({status: true, events: eventAttended});
+            } else {
+                response.json({status: false});
+            }
+        } else {
+            response.json({status: false});
+        }
+    } catch (error) {
+        console.error(error);
+        response.json({status: false});
     }
 
 });
