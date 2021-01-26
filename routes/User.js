@@ -81,6 +81,10 @@ router.post("/login", async (request, response) => {
     .send("logged In");
 });
 
+router.post("/logout", async (request, response) => {
+  response.clearCookie("jwt").send("logged out");
+});
+
 router.post("/resetPassword", async (req, res) => {
   const { email } = request.body;
   const user = await User.findOne({ email });
