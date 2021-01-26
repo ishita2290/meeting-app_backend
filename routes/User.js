@@ -4,7 +4,7 @@ const User = require("../Models/UserModel");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const { jwtIssuer } = require("../utils/jwtIssuer");
-const { authenticatetoken } = require("../middleware/auth");
+const  authenticatetoken  = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 
 router.post("/register", async (request, response) => {
@@ -37,8 +37,8 @@ router.post("/login", async (request, response) => {
   const { email, password } = request.body;
 
   const user = await User.findOne({ email });
-  console.log(user);
-  if (user === null) {
+  console.log('user',user);
+  if (!user) {
     return response.status(500).send("User doesnot exist");
   }
 
@@ -49,6 +49,7 @@ router.post("/login", async (request, response) => {
   }
 
   const token = jwtIssuer(user);
+  console.log('login token : ', token);
   response
     .cookie("jwt", token, {
       httpOnly: true,
@@ -89,5 +90,7 @@ router.get("/", (request, response) => {
 //       res.redirect('/');
 //   }
 //   });
-
+// router.get('/dashboard' , authenticatetoken,(request,response)=>{
+//     response.send(request.user)
+// })
 module.exports = router;
