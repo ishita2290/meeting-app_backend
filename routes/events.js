@@ -70,20 +70,20 @@ router.get('/search-events/online', async (request, response) => {
 
 });
 
-// get data based on location
+//get data based on city
 
-// router.get('/search-events/location/:location', async (request, response) => {
+router.get('/search-events/city/:city', async (request, response) => {
 
-//     const {location} = request.params;
+    const {city} = request.params;
 
-//     try {
-//         const events = await Event.find({location});
-//         response.json(events);
-//     }
-//     catch (error) {
-//         console.error(error);
-//     }
+    try {
+        const events = await Event.find({city});
+        response.json(events);
+    }
+    catch (error) {
+        console.error(error);
+    }
 
-// });
+});
 
 module.exports = router;
