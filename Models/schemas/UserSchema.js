@@ -8,6 +8,8 @@ const UserSchema = new mongoose.Schema({
     dateOfBirth:{ type: Date, required: false },
     age:{type:Number},
     email:{ type: String, required: true },
+    age:{ type: String, required: false },
+    city:{ type: String, required: false },
     telephone:{ type: String },
     gender:{ type: String,default:"N/A",enum:["Male","Female","N/A"]},
     image:{type:Buffer},

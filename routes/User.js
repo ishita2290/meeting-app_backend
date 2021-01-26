@@ -96,15 +96,15 @@ router.post("/resetPassword", async (req, res) => {
   };
 
   const token = jwt.sign(payload, process.env.RESETPASSWORD_SECRET, {
-    expiresIn: "30m",
-  });
+    expiresIn: "30m"},
+  );
+ 
   console.log(token);
-  user.passwordResetToken = token;
-  user.save();
-  const resetUrl = `${request.protocol}://${request.get(
-    "host"
-  )}/user/resetPassword/${token}`;
-  const message = `Forgot your password? click on the link and submit your new password and password confirmation to ${resetUrl} \n \n if you didn't forget your password please ignore this email  `;
+    user.passwordResetToken = token;
+        user.save();
+        const resetUrl = `${request.protocol}://${request.get('host')}/user/resetPassword/${token}`;
+        const message = `Forgot your password? click on the link and submit your new password and password confirmation to ${resetUrl} \n \n if you didn't forget your password please ignore this email  `;
+
 
   try {
     await sendEmail({
@@ -118,10 +118,64 @@ router.post("/resetPassword", async (req, res) => {
   } catch (error) {}
 });
 
-router.get("/", (request, response) => {
-  console.log(response);
-  response.render("/user/getUser", { user: new User() });
+
+
+/**
+ * Back-end endpoint to get auth user through token
+ * 
+ */
+router.get("/get-auth-user", async (request, response) => {
+  // Get all cookie
+  cookies = request.cookies;
+
+  // if type of cookie jwt  is not undefined
+  if (typeof cookies.jwt != 'undefined') {
+
+    // Get jwt token from wookies
+    jwt_token = cookies.jwt.token;
+
+    // Verify and decode token
+    jwt.verify(jwt_token, process.env.ACCESS_TOKEN_SECRET, async (err, user_token) => {
+      if (err) {
+        console.error(err);
+        response.json({status: false});
+      } else {
+        // Get user info from jwt token
+        user_id = user_token.sub;
+
+        // get User info from user ID (user_token.sub)
+        user = await User.findOne({ _id: user_id});
+
+        // return user info
+        response.json({status: true, user: user});
+      }
+    });
+  } else {
+    // return error: user is not logged in
+    response.json({status: false});
+  }
 });
+
+/**
+ * Back-end endpoint to update user
+ * 
+ */
+router.post("/update-user", async (request, response) => {
+  user = await User.findOne({ _id: request.body.user._id});
+  
+  user.username = request.body.user.username;
+  user.city = request.body.user.city;
+  user.age = request.body.user.age;
+
+  if (user.save()) {
+    response.json({status: true, message: 'Changes saved'});
+  } else {
+    response.json({status: false});
+  }
+});
+
+
+  
 // router.get("/", async (req, res) => {
 
 //   let searchOptions ={}

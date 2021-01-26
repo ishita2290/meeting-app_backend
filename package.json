@@ -24,12 +24,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/David-Muehlenberg/Meeting-App-Backend.git"
+    "url": "git+https://github.com/ishita2290/meeting-app-backend.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/David-Muehlenberg/Meeting-App-Backend/issues"
+    "url": "https://github.com/ishita2290/meeting-app-backend/issues"
   },
-  "homepage": "https://github.com/David-Muehlenberg/Meeting-App-Backend#readme"
+  "homepage": "https://github.com/ishita2290/meeting-app-backend/issues#readme"
 }

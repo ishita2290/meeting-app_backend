@@ -17,7 +17,7 @@ const payload ={
 const signedToken = jsonwebtoken.sign(payload,process.env.ACCESS_TOKEN_SECRET);
 
 return{
-    token:` ${signedToken}`,
+        token:`${signedToken}`,
     // expiredIn
 }
 }
