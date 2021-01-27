@@ -6,13 +6,10 @@ const bcrypt = require("bcrypt");
 const { jwtIssuer } = require("../utils/jwtIssuer");
 const  auth  = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
-<<<<<<< HEAD
 const Event = require("../Models/EventModel");
 // const { authenticate } = require("passport");
-=======
 const { response } = require("express");
 const sendEmail = require("../utils/sendEmail");
->>>>>>> b43caff57f7f39f9ad2a27571c1d743aef00d139
 
 router.post("/register", async (request, response) => {
   console.log(request.body);
