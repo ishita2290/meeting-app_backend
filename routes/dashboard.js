@@ -9,6 +9,9 @@ router.get("/view",passport.authenticate("jwt",{session:false}),(request,respons
     console.log(request.cookies)
 
     response.send("got it")
-})
+});
+
+
+
 
 module.exports = router;
