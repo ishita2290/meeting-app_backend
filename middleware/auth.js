@@ -15,4 +15,4 @@ function authenticatetoken(req, res, next) {
     // Bearer TOKEN
   }
 
-  module.export = {authenticatetoken}
+  module.exports = {authenticatetoken}
