@@ -16,8 +16,11 @@ const UserSchema = new mongoose.Schema({
     bio:{type:String,max:255},
     city:{type:String},
     country:{type:String},
-    resetToken:String,
-    expireToken: Date,
+    // events:[
+    //     {type:mongoose.Schema.Types.ObjectId,
+    //      ref:"events"}
+    // ]
+   
 });
 
 module.exports = UserSchema;
