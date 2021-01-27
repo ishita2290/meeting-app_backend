@@ -3,8 +3,10 @@ const router = express.Router();
 const User = require("../Models/UserModel");
 const bcrypt = require("bcrypt");
 const { jwtIssuer } = require("../utils/jwtIssuer");
-const { authenticatetoken } = require("../middleware/auth");
+const  auth  = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
+const Event = require("../Models/EventModel");
+// const { authenticate } = require("passport");
 const { response } = require("express");
 const sendEmail = require("../utils/sendEmail");
 
@@ -60,8 +62,8 @@ router.post("/login", async (request, response) => {
   const { email, password } = request.body;
 
   const user = await User.findOne({ email });
-  console.log(user);
-  if (user === null) {
+  console.log('user',user);
+  if (!user) {
     return response.status(500).send("User doesnot exist");
   }
 
@@ -72,12 +74,17 @@ router.post("/login", async (request, response) => {
   }
 
   const token = jwtIssuer(user);
+  console.log('login token : ', token);
   response
     .cookie("jwt", token, {
       httpOnly: true,
       sameSite: "lax",
     })
     .send("logged In");
+});
+
+router.post("/logout", async (request, response) => {
+  response.clearCookie("jwt").send("logged out");
 });
 
 router.post("/resetPassword", async (req, res) => {
@@ -119,6 +126,44 @@ router.post("/resetPassword", async (req, res) => {
 
 
 
+
+
+ 
+router.get('/dashboard', auth,async (request, response)=>{
+ 
+const userId = request.user.sub;
+const user = await User.findById(userId).select('-hash');
+
+response.send(user);
+
+});
+
+/// attend an event for logged in user 
+router.get('/attend-an-event/:id', auth,async (request, response)=>{
+ 
+  const userId = request.user.sub;
+  try {
+    const event = await Event.findByIdAndUpdate(request.params.id,
+      { $addToSet :{ participants :userId  }},
+      { new : true}
+      
+      )
+      const user = await User.findByIdAndUpdate(userId,
+        { $addToSet :{ events :request.params.id  }},
+        { new : true}
+        
+        )        
+    
+    if(!event){
+    return  response.send('the event is not exist anymore')
+    }
+
+    response.json({msg: 'you attended successfully' ,event , user })
+  } catch (error) {
+     console.log(error)
+  }
+  
+  });
 /**
  * Back-end endpoint to get auth user through token
  * 
@@ -188,5 +233,7 @@ router.post("/update-user", async (request, response) => {
 //       res.redirect('/');
 //   }
 //   });
-
+// router.get('/dashboard' , authenticatetoken,(request,response)=>{
+//     response.send(request.user)
+// })
 module.exports = router;
