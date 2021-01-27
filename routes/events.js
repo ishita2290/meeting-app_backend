@@ -11,7 +11,7 @@ router.post('/add-new-event', async (request, response) => {
         response.status(201).json(
             {
                 status: 'New Event added',
-                data: createNewEvent                                        
+                data: createNewEvent                                     
             }
         )
     }
@@ -72,18 +72,18 @@ router.get('/search-events/online', async (request, response) => {
 
 //get data based on city
 
-router.get('/search-events/city/:city', async (request, response) => {
+// router.get('/search-events/city/:city', async (request, response) => {
 
-    const {city} = request.params;
+//     const {city} = request.params;
 
-    try {
-        const events = await Event.find({city});
-        response.json(events);
-    }
-    catch (error) {
-        console.error(error);
-    }
+//     try {
+//         const events = await Event.find({city});
+//         response.json(events);
+//     }
+//     catch (error) {
+//         console.error(error);
+//     }
 
-});
+// });
 
 module.exports = router;

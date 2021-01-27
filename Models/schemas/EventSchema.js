@@ -8,23 +8,11 @@ const EventSchema = new mongoose.Schema({
     timeFrom: { type: String, required: true },
     timeTo: { type: String, required: true },
     online: { type: Boolean, required: true },
-    // location: { // GeoJSON https://mongoosejs.com/docs/geojson.html
-    //     type: {
-    //         type: String, 
-    //         enum: ['Point'] // 'location.type' must be 'Point'
-    //     },
-    //     coordinates: {
-    //         type: [Number],
-    //         required: false
-    //     }
-    // },
-    address: {
-        place: { type: String },
-        street: { type: String },
-        postalCode: { type: Number },
-        city: { type: String },
-        country: { type: String },
-    },
+    place: { type: String },
+    street: { type: String },
+    postalCode: { type: Number },
+    city: { type: String, required: true },
+    country: { type: String, required: true },
     description: { type: String, unique: true },
     category: { type: String, enum: ['music', 'books', 'sport', 'learning languages', 'other'] },
     //participants: { type: [mongoose.Schema.Types.ObjectId] } // dynamic 
