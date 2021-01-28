@@ -11,7 +11,7 @@ router.post('/add-new-event', async (request, response) => {
         response.status(201).json(
             {
                 status: 'New Event added',
-                data: createNewEvent                                          
+                data: createNewEvent                                     
             }
         )
     }
@@ -20,7 +20,6 @@ router.post('/add-new-event', async (request, response) => {
     }
        
 });
-
 
 // get data organized by provided user
 router.get('/get-organized-events', async (request, response) => {
@@ -74,9 +73,9 @@ router.get('/get-attended-events', async (request, response) => {
 
 });
 
-
 // get data based on event's name
-router.get('/search-events/:query', async (request, response) => {
+
+router.get('/search-events/name/:query', async (request, response) => {
 
     const {query} = request.params;
 
@@ -92,15 +91,14 @@ router.get('/search-events/:query', async (request, response) => {
 
 });
 
-
 // get data based on category
 
-router.get('/search-events/', async (request, response) => {
+router.get('/search-events/category/:category', async (request, response) => {
 
-       const category = request.query.category
+    const category = request.params.category;
 
     try {
-        const events = await Event.find({category });
+        const events = await Event.find({category});
         response.json(events);
     }
     catch (error) {
@@ -111,6 +109,33 @@ router.get('/search-events/', async (request, response) => {
 
 // get data - only online events
 
+router.get('/search-events/online', async (request, response) => {
 
+    try {
+        const events = await Event.find({online: true});
+        response.json(events);
+    }
+    catch (error) {
+        console.error(error);
+        response.status(404).send('/here was an error')
+    }
+
+});
+
+//get data based on address
+
+router.get('/search-events/address/:city', async (request, response) => {
+
+    const {city} = request.params;
+
+    try {
+        const events = await Event.find({city});
+        response.json(events);
+    }
+    catch (error) {
+        console.error(error);
+    }
+
+});
 
 module.exports = router;
