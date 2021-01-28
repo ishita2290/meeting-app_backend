@@ -16,17 +16,14 @@ const UserSchema = new mongoose.Schema({
     bio:{type:String,max:255},
     city:{type:String},
     country:{type:String},
-<<<<<<< HEAD
     // events:[
     //     {type:mongoose.Schema.Types.ObjectId,
     //      ref:"events"}
     // ]
    
-=======
     resetToken:String,
     expireToken: Date,
     events: [{ type: mongoose.Schema.Types.ObjectId,ref:"events" }]
->>>>>>> a8fd6ac9999b220dfe9c58a149282b16fea53cf0
 });
 
 module.exports = UserSchema;

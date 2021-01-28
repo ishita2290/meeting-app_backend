@@ -21,17 +21,6 @@ router.post('/add-new-event', async (request, response) => {
        
 });
 
-<<<<<<< HEAD
-router.get("/get-event/:id" , async (request, response) => {
-    const singleEvent = await Event.findById(request.params.id);
-    if(!singleEvent){
-       return response.send('not correct id')
-    }
-    response.send(singleEvent)
-})
-
-=======
->>>>>>> b43caff57f7f39f9ad2a27571c1d743aef00d139
 // get data organized by provided user
 router.get('/get-organized-events', async (request, response) => {
 
@@ -133,20 +122,20 @@ router.get('/search-events/online', async (request, response) => {
 
 });
 
-//get data based on city
+//get data based on address
 
-// router.get('/search-events/city/:city', async (request, response) => {
+router.get('/search-events/address/:city', async (request, response) => {
 
-//     const {city} = request.params;
+    const {city} = request.params;
 
-//     try {
-//         const events = await Event.find({city});
-//         response.json(events);
-//     }
-//     catch (error) {
-//         console.error(error);
-//     }
+    try {
+        const events = await Event.find({city});
+        response.json(events);
+    }
+    catch (error) {
+        console.error(error);
+    }
 
-// });
+});
 
 module.exports = router;
