@@ -5,10 +5,17 @@ const User = require("./Models/UserModel");
 const UserRouter = require("./routes/User");
 const router = require("./routes/dashboard")
 const eventRoutes = require('./routes/events');
+<<<<<<< HEAD
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const {jwtStrategy} = require ("./config/passportStrategies")
 const cors = require("cors");
+=======
+const cors = require('cors');
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const {jwtStrategy} = require ("./config/passportStrategies")
+>>>>>>> 6911d9caa65954cb8aba28db4fc12f1827e24f8c
 
 const app = express();
 app.use(cookieParser())
@@ -32,7 +39,7 @@ mongoose
   });
 
 app.use('/user',UserRouter);
-// app.use("/dashboard",router);
+app.use("/dashboard",router);
 app.use('/events', eventRoutes);
 
 app.listen(4014, console.log("Server started"));

@@ -133,20 +133,20 @@ router.get("/search-events/online", async (request, response) => {
   }
 });
 
-//get data based on city
+//get data based on address
 
-// router.get('/search-events/city/:city', async (request, response) => {
+router.get('/search-events/address/:city', async (request, response) => {
 
-//     const {city} = request.params;
+    const {city} = request.params;
 
-//     try {
-//         const events = await Event.find({city});
-//         response.json(events);
-//     }
-//     catch (error) {
-//         console.error(error);
-//     }
+    try {
+        const events = await Event.find({city});
+        response.json(events);
+    }
+    catch (error) {
+        console.error(error);
+    }
 
-// });
+});
 
 module.exports = router;

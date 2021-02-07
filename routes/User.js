@@ -231,7 +231,15 @@ router.get("/get-auth-user",auth, async (request, response) => {
   //   // return error: user is not logged in
   //   response.json({status: false});
   // }
-});
+        // return user info
+//         response.json({status: true, user: user});
+//       }
+//     });
+//   } else {
+//     // return error: user is not logged in
+//     response.json({status: false, message: 'You\'re not logged in'});
+//   }
+// });
 
 /**
  * Back-end endpoint to update user
@@ -240,9 +248,15 @@ router.get("/get-auth-user",auth, async (request, response) => {
 router.post("/update-user", async (request, response) => {
   user = await User.findOne({ _id: request.body.user._id});
   
-  user.username = request.body.user.username;
-  user.city = request.body.user.city;
+  user.firstName = request.body.user.firstName;
+  user.lastName = request.body.user.lastName;
+  user.email = request.body.user.email;
   user.age = request.body.user.age;
+  user.city = request.body.user.city;
+  user.country = request.body.user.country;
+  user.telephone = request.body.user.telephone;
+  user.gender = request.body.user.gender;
+  user.bio = request.body.user.bio;
 
   if (user.save()) {
     response.json({status: true, message: 'Changes saved'});
@@ -268,5 +282,6 @@ router.post("/update-user", async (request, response) => {
 //   });
 // router.get('/dashboard' , authenticatetoken,(request,response)=>{
 //     response.send(request.user)
-// })
+})
+
 module.exports = router;
