@@ -1,17 +1,49 @@
 const router = require('express').Router();
+const { response } = require('express');
 const { builtinModules } = require('module');
 const mongoose = require('mongoose');
 const Event = require('../Models/EventModel');
+const  auth  = require("../middleware/auth");
 
-router.post('/add-new-event', async (request, response) => {
+router.post('/add-new-event', auth, async (request, response) => {
 
     try {
-        const createNewEvent = await Event.create(request.body);
+        const {
+            eventName,
+            startingDate,
+            timeFrom,
+            timeTo,
+            online,
+            place,
+            street,
+            postalCode,
+            city,
+            country,
+            description,
+            category
+        } = request.body;
+
+        const createNewEvent = await Event.create({
+            organizer: request.user.sub,
+            eventName,
+            startingDate,
+            timeFrom,
+            timeTo,
+            online,
+            place,
+            street,
+            postalCode,
+            city,
+            country,
+            description,
+            category,
+            participants: username
+        });
         //console.log('it worked');
         response.status(201).json(
             {
                 status: 'New Event added',
-                data: createNewEvent                                     
+                data: createNewEvent                                
             }
         )
     }
@@ -22,7 +54,7 @@ router.post('/add-new-event', async (request, response) => {
 });
 
 // get data organized by provided user
-router.get('/get-organized-events', async (request, response) => {
+router.get('/get-organized-events', auth, async (request, response) => {
 
     try {
         if (typeof request.query.user !== 'undefined' && request.query.user !== '') {
@@ -122,14 +154,14 @@ router.get('/search-events/online', async (request, response) => {
 
 });
 
-//get data based on address
+// get data based on address
 
-router.get('/search-events/address/:city', async (request, response) => {
-
-    const {city} = request.params;
+router.get('/search-events/test/:city/:country', async (request, response) => {
+    const city = request.params.city;
+    const country = request.params.country;
 
     try {
-        const events = await Event.find({city});
+        const events = await Event.find({ city, country });
         response.json(events);
     }
     catch (error) {
@@ -137,5 +169,25 @@ router.get('/search-events/address/:city', async (request, response) => {
     }
 
 });
+
+router.get('/get-event/:id', async (request, response) =>  {
+    const id = request.params.id;
+
+    try {
+        const event =  await Event.findById(id).populate('organizer');
+        if (!event) {
+            return response.status(404).json({
+                message: "Event not found"
+            })
+        }
+        response.json({
+            event
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+});
+
 
 module.exports = router;

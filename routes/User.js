@@ -129,7 +129,7 @@ router.post("/resetPassword", async (req, res) => {
 
 
  
-router.get('/dashboard', auth,async (request, response)=>{
+router.get('/dashboard', auth, async (request, response)=>{
  
 const userId = request.user.sub;
 const user = await User.findById(userId).select('-hash');
@@ -139,7 +139,7 @@ response.send(user);
 });
 
 /// attend an event for logged in user 
-router.get('/attend-an-event/:id', auth,async (request, response)=>{
+router.get('/attend-an-event/:id', auth, async (request, response)=>{
  
   const userId = request.user.sub;
   try {
@@ -147,12 +147,12 @@ router.get('/attend-an-event/:id', auth,async (request, response)=>{
       { $addToSet :{ participants :userId  }},
       { new : true}
       
-      )
+    )
       const user = await User.findByIdAndUpdate(userId,
         { $addToSet :{ events :request.params.id  }},
         { new : true}
         
-        )        
+      )        
     
     if(!event){
     return  response.send('the event is not exist anymore')
