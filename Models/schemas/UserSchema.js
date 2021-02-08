@@ -14,16 +14,9 @@ const UserSchema = new mongoose.Schema({
     gender:{ type: String,default:"N/A",enum:["Male","Female","N/A"]},
     image:{type:Buffer},
     bio:{type:String,max:255},
-<<<<<<< HEAD
     city:{type:String},
     country:{type:String},
     photo:{type:String},
-=======
-    // events:[
-    //     {type:mongoose.Schema.Types.ObjectId,
-    //      ref:"events"}
-    // ]
->>>>>>> 6911d9caa65954cb8aba28db4fc12f1827e24f8c
    
     resetToken:String,
     expireToken: Date,
