@@ -30,6 +30,10 @@ router.post("/register", async (request, response) => {
     return response.status(500).send("User exist");
   }
 
+  if(!password) {
+    return response.status(500).send("No password")
+  }
+
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 

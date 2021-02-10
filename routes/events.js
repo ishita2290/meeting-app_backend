@@ -37,9 +37,8 @@ router.post('/add-new-event', auth, async (request, response) => {
             country,
             description,
             category,
-            participants: username
         });
-        console.log('it worked');
+        //console.log('it worked');
         response.status(201).json(
             {
                 status: 'New Event added',
@@ -49,6 +48,7 @@ router.post('/add-new-event', auth, async (request, response) => {
     }
     catch (error) {
         console.error(error);
+        response.status(400).send('backend error');
     }
        
 });
@@ -216,7 +216,7 @@ router.get('/get-event/:id', async (request, response) =>  {
     const id = request.params.id;
 
     try {
-        const event =  await Event.findById(id).populate('organizer');
+        const event =  await (await Event.findById(id).populate('organizer').populate('participants'));
         if (!event) {
             return response.status(404).json({
                 message: "Event not found"
