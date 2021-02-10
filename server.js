@@ -5,10 +5,10 @@ const User = require("./Models/UserModel");
 const UserRouter = require("./routes/User");
 const router = require("./routes/dashboard")
 const eventRoutes = require('./routes/events');
-const cors = require('cors');
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const {jwtStrategy} = require ("./config/passportStrategies")
+const cors = require("cors");
 
 const app = express();
 app.use(cookieParser())
