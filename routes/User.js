@@ -202,7 +202,7 @@ router.get("/get-auth-user",auth, async (request, response) => {
   if (typeof cookies.jwt != 'undefined') {
 
     // Get jwt token from cookies
-    jwt_token = cookies.jwt.token;
+    jwt_token = cookies.jwt;
 
     // Verify and decode token
     jwt.verify(jwt_token, process.env.ACCESS_TOKEN_SECRET, async (err, user_token) => {
