@@ -195,55 +195,36 @@ router.get('/attend-an-event/:id', auth, async (request, response)=>{
  * 
  */
 router.get("/get-auth-user",auth, async (request, response) => {
-  const   user_id = request.user.sub;
-      
-  const   user = await User.findById(user_id).select('-password');
-  if(!user){
-  return  response.status(500).json({ message : 'not found or not authorized'})
-  }
-  response.json({user});
-
-
-        
-       
   // Get all cookie
-  // cookies = request.cookies;
+  cookies = request.cookies;
 
-  // // if type of cookie jwt  is not undefined
-  // if (typeof cookies.jwt != 'undefined') {
+  // if type of cookie jwt  is not undefined
+  if (typeof cookies.jwt != 'undefined') {
 
-  //   // Get jwt token from wookies
-  //   jwt_token = cookies.jwt.token;
+    // Get jwt token from cookies
+    jwt_token = cookies.jwt;
 
-  //   // Verify and decode token
-  //   jwt.verify(jwt_token, process.env.ACCESS_TOKEN_SECRET, async (err, user_token) => {
-  //     if (err) {
-  //       console.error(err);
-  //       response.json({status: false});
-  //     } else {
-  //       // Get user info from jwt token
-  //    const   user_id = request.user.sub;
+    // Verify and decode token
+    jwt.verify(jwt_token, process.env.ACCESS_TOKEN_SECRET, async (err, user_token) => {
+      if (err) {
+        console.error(err);
+        response.json({status: false});
+      } else {
+        // Get user info from jwt token
+        user_id = user_token.sub;
 
-  //       // get User info from user ID (user_token.sub)
-  //       user = await User.findById(user_id);
+        // get User info from user ID (user_token.sub)
+        user = await User.findOne({ _id: user_id});
 
-  //       // return user info
-  //       response.json({status: true, user: user});
-  //     }
-  //   });
-  // } else {
-  //   // return error: user is not logged in
-  //   response.json({status: false});
-  // }
         // return user info
-//         response.json({status: true, user: user});
-//       }
-//     });
-//   } else {
-//     // return error: user is not logged in
-//     response.json({status: false, message: 'You\'re not logged in'});
-//   }
-// });
+        response.json({status: true, user: user});
+      }
+    });
+  } else {
+    // return error: user is not logged in
+    response.json({status: false});
+  }
+});
 
 /**
  * Back-end endpoint to update user
@@ -289,6 +270,6 @@ router.post("/update-user", auth, async (request, response) => {
 //   });
 // router.get('/dashboard' , authenticatetoken,(request,response)=>{
 //     response.send(request.user)
-})
+// })
 
 module.exports = router;
