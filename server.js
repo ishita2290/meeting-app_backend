@@ -9,11 +9,14 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const {jwtStrategy} = require ("./config/passportStrategies")
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
+
 
 const app = express();
 app.use(cookieParser())
 app.use(express.json());
 app.use(cors());
+app.use(fileUpload());
 dotenv.config();
 app.use(passport.initialize());
 passport.use(jwtStrategy);
