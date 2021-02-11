@@ -170,21 +170,21 @@ router.get('/attend-an-event/:id', auth, async (request, response)=>{
   const userId = request.user.sub;
   try {
     const event = await Event.findByIdAndUpdate(request.params.id,
-      { $addToSet :{ participants :userId  }},
-      { new : true}
-      
-    )
-      const user = await User.findByIdAndUpdate(userId,
+      { $addToSet: { participants: userId }},
+      { new : true});
+
+    console.log(999,userId, event);
+      /* const user = await User.findByIdAndUpdate(userId,
         { $addToSet :{ events :request.params.id  }},
         { new : true}
         
-      )        
+      )    */     
     
     if(!event){
     return  response.send('the event is not exist anymore')
     }
 
-    response.json({msg: 'you attended successfully' ,event , user })
+    response.json({msg: 'you attended successfully' ,event })
   } catch (error) {
      console.log(error)
   }
@@ -230,18 +230,21 @@ router.get("/get-auth-user",auth, async (request, response) => {
  * Back-end endpoint to update user
  * 
  */
-router.post("/update-user", async (request, response) => {
-  user = await User.findOne({ _id: request.body.user._id});
+router.post("/update-user", auth, async (request, response) => {
+
+  const user_id = request.user.sub;
+
+  const user = await User.findOne({ _id: user_id});
   
-  user.firstName = request.body.user.firstName;
-  user.lastName = request.body.user.lastName;
-  user.email = request.body.user.email;
-  user.age = request.body.user.age;
-  user.city = request.body.user.city;
-  user.country = request.body.user.country;
-  user.telephone = request.body.user.telephone;
-  user.gender = request.body.user.gender;
-  user.bio = request.body.user.bio;
+  user.firstName = request.body.firstName;
+  user.lastName = request.body.lastName;
+  user.email = request.body.email;
+  user.age = request.body.age;
+  user.city = request.body.city;
+  user.country = request.body.country;
+  user.telephone = request.body.telephone;
+  user.gender = request.body.gender;
+  user.bio = request.body.bio;
 
   if (user.save()) {
     response.json({status: true, message: 'Changes saved'});

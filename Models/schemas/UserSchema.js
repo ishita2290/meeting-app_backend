@@ -1,3 +1,4 @@
+const { request } = require('express');
 const mongoose =require("mongoose");
 
 const UserSchema = new mongoose.Schema({
@@ -20,7 +21,7 @@ const UserSchema = new mongoose.Schema({
    
     resetToken:String,
     expireToken: Date,
-    events: [{ type: mongoose.Schema.Types.ObjectId,ref:"events" }]
+    events: [{ type: mongoose.Schema.Types.ObjectId,ref: 'Event' }]
 });
 
 module.exports = UserSchema;

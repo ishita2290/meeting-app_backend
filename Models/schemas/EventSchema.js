@@ -15,6 +15,7 @@ const EventSchema = new mongoose.Schema({
     country: { type: String, required: true },
     description: { type: String, unique: true },
     category: { type: String, enum: ['music', 'books', 'sport', 'languages', 'other'], required: true },
+    participants: [{ type: mongoose.Schema.Types.ObjectId, ref:User }]
 });
 
 module.exports = EventSchema;
